@@ -313,6 +313,27 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Requ
 	return p, resp, err
 }
 
+type SearchForProjectsByNameOptions struct {
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search  *string `url:"search,omitempty" json:"search,omitempty"`
+}
+
+func (s *ProjectsService) SearchForProjectsByName(opt *SearchForProjectsByNameOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "projects", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // ListUserProjects gets a list of projects for the given user.
 //
 // GitLab API docs:
